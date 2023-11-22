@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+//import { AboutComponent } from './about/about.component';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -6,8 +6,6 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './artist-discography.component.html',
-  styleUrl: './artist-discography.component.scss'
+  styleUrl: './artist-discography.component.scss',
 })
-export class ArtistDiscographyComponent {
-
-}
+export class ArtistDiscographyComponent {}

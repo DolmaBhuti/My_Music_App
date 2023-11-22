@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -6,8 +6,6 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './new-releases.component.html',
-  styleUrl: './new-releases.component.scss'
+  styleUrl: './new-releases.component.scss',
 })
-export class NewReleasesComponent {
-
-}
+export class NewReleasesComponent {}

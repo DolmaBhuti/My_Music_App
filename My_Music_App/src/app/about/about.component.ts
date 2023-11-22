@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-about',
-  standalone: true,
   imports: [CommonModule],
+  standalone: true,
   templateUrl: './about.component.html',
-  styleUrl: './about.component.scss'
+  styleUrl: './about.component.scss',
 })
-export class AboutComponent {
-
+export class AboutComponent implements OnInit {
+  constructor() {}
+  ngOnInit(): void {}
 }
