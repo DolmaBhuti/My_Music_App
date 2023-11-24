@@ -1,1 +1,44 @@
-<p>artist-discography works!</p>
+<div class="content">
+  <div class="container-fluid">
+    <!-- artist card -->
+    <div class="row justify-content-center">
+      <div class="card w-50 border-0">
+        <div class="card-body">
+          <!--TODO: add routing -->
+          <a href="">
+            <img
+              src="{{ artist.images[0].url }}"
+              class="card-img-top"
+              alt="artist cover"
+          /></a>
+          <h5 class="card-title text-center mt-3">{{ artist.name }}</h5>
+        </div>
+      </div>
+    </div>
+
+    <!-- Album Cards-->
+    <h1 class="p-1 text-center">Full Discography</h1>
+
+    <div class="row">
+      <div class="col-sm-6 col-md-4 col-lg-3" *ngFor="let album of albums">
+        <div class="card border-0">
+          <div class="card-body">
+            <!--TODO: add routing -->
+
+            <a href="">
+              <img
+                src="{{ album.images[0].url }}"
+                class="card-img-top"
+                alt="album cover"
+            /></a>
+            <h5 class="card-title">{{ album.name }}</h5>
+            <p class="card-text">
+              <strong>Tracks:</strong> {{ album.total_tracks }}<br />
+              <strong>Popularity: </strong>{{ album.popularity }}<br />
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

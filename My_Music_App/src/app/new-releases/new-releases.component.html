@@ -1,1 +1,48 @@
-<p>new-releases works!</p>
+<div
+  class="content d-flex flex-column align-items-center justify-content-center"
+>
+  <h1>New Releases</h1>
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div
+        class="card col-sm-6 col-md-4 col-lg-3"
+        style="width: 20rem"
+        *ngFor="let release of releases"
+      >
+        <!--TODO: add routing -->
+
+        <a routerLinkActive="active" href="#"
+          ><img
+            src="{{ release.images[0].url }}"
+            class="card-img-top img-fluid"
+            alt="album cover"
+        /></a>
+        <div class="card-body">
+          <h5 class="card-title">
+            {{ release.name }}
+          </h5>
+          <h6 class="cart-subtitle text-muted">New Release</h6>
+          <p class="card-text">
+            <strong>Release Date: </strong
+            >{{ release.release_date | date : "MM/dd/YYYY" }}<br />
+            <strong>Tracks: </strong>{{ release.total_tracks }}<br /><br />
+          </p>
+          <div class="d-flex gap-2" aria-label="Artist selection">
+            <!--TODO: add routing -->
+
+            <a
+              href="#"
+              routerLinkActive="active"
+              class="badge bg-primary"
+              *ngFor="let artist of release.artists"
+            >
+              {{ artist.name }}</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- routerLink="/artist/{{ artist.id }}" routerLink="/album/{{ release.id }}" -->

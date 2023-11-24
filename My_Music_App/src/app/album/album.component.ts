@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import albumData from '../data/SearchResultsAlbum.json';
 
 @Component({
   selector: 'app-album',
@@ -8,4 +9,11 @@ import { CommonModule } from '@angular/common';
   templateUrl: './album.component.html',
   styleUrl: './album.component.scss',
 })
-export class AlbumComponent {}
+export class AlbumComponent implements OnInit {
+  //properties
+  album: any;
+  constructor() {}
+  ngOnInit(): void {
+    this.album = albumData;
+  }
+}
