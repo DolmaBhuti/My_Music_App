@@ -1,39 +1,39 @@
 <div class="content">
   <div class="container-fluid">
     <div class="row justify-content-center">
+      <!--album info-->
       <div class="card w-50 border-0">
-        <!--TODO: add routing -->
-
-        <a href=""
-          ><img
-            src="{{ album.images[0].url }}"
-            class="card-img-top"
-            alt="album cover"
-        /></a>
+        <img
+          src="{{ album?.images[0].url }}"
+          class="card-img-top"
+          alt="album cover"
+        />
         <div class="card-body m-10" style="min-width: 300px">
-          <h5 class="card-title">{{ album.name }}</h5>
+          <h5 class="card-title">
+            {{ album?.name }}
+          </h5>
           <p class="card-text">
-            <strong>Record Label: </strong> {{ album.label }}<br />
+            <strong>Record Label: </strong> {{ album?.label }}<br />
             <strong>Release Date: </strong>
-            {{ album.release_date | date : "MM/dd/YYYY" }}<br />
+            {{ album?.release_date | date : "MM/dd/YYYY" }}<br />
 
-            <strong>Tracks:</strong> {{ album.total_tracks }}<br />
-            <strong>Popularity: </strong>{{ album.popularity }}<br />
+            <strong>Tracks:</strong> {{ album?.total_tracks }}<br />
+            <strong>Popularity: </strong>{{ album?.popularity }}<br />
           </p>
           <div class="d-flex gap-2" aria-label="Artist selection">
             <!--TODO: add routing -->
 
             <a
-              href="#"
+              routerLink="/artist/{{ artist.id }}"
               routerLinkActive="active"
               class="badge bg-primary fs-6"
-              *ngFor="let artist of album.artists"
+              *ngFor="let artist of album?.artists"
             >
               {{ artist.name }}</a
             >
           </div>
           <div class="d-flex flex-column justify-content-center mt-3">
-            <div *ngFor="let copyright of album.copyrights">
+            <div *ngFor="let copyright of album?.copyrights">
               <p class="card-text fw-lighter">
                 {{ copyright.text }}
               </p>
@@ -46,11 +46,21 @@
     <div class="row justify-content-center">
       <h2 class="text-center">Tracks</h2>
       <ol class="list-group list-group-numbered w-50">
-        <li class="list-group-item" *ngFor="let track of album.tracks.items">
+        <li class="list-group-item" *ngFor="let track of album?.tracks.items">
+          <!--Add track to Favourites-->
+          <button class="btn" (click)="addToFavourites(track.id)">
+            <img src="../../assets/images/heart.svg" alt="Favourite" />
+          </button>
+
           {{ track.name }} - {{ (track.duration_ms / 60000).toFixed(2) }}
 
-          <!-- NOTE 3.34 was determined by using (duration_ms / 60000).toFixed(2) -->
           <!--TODO add audio-->
+          <!--track preview -->
+          <div class="btn btn-success" *ngIf="track.preview_url">
+            <br /><audio controls [src]="track.preview_url"></audio>
+          </div>
+
+          <!-- NOTE 3.34 was determined by using (duration_ms / 60000).toFixed(2) -->
         </li>
       </ol>
     </div>

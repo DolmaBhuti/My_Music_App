@@ -26,7 +26,14 @@
             Playlists
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">New Releases</a></li>
+            <li>
+              <a
+                class="dropdown-item"
+                routerLink="/newReleases"
+                routerLinkActive="active"
+                >New Releases</a
+              >
+            </li>
             <li><a class="dropdown-item" href="#">Favourites</a></li>
             <li><hr class="dropdown-divider" /></li>
             <li><a class="dropdown-item" href="#">Something else here</a></li>
@@ -52,6 +59,6 @@
 <router-outlet></router-outlet>
 <!-- <app-about></app-about>
 <app-not-found></app-not-found> -->
-<app-artist-discography></app-artist-discography>
+<!-- <app-artist-discography></app-artist-discography> -->
 <!-- <app-new-releases></app-new-releases>
 <app-album></app-album> -->

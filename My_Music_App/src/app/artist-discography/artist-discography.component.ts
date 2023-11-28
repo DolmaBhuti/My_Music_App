@@ -1,28 +1,63 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { MusicDataService } from '../music-data.service';
+
 import albumData from '../data/SearchResultsAlbums.json';
 import artistData from '../data/SearchResultsArtist.json';
 
 @Component({
   selector: 'app-artist-discography',
-  standalone: true,
-  imports: [CommonModule],
+  standalone: false,
   templateUrl: './artist-discography.component.html',
   styleUrl: './artist-discography.component.scss',
 })
 export class ArtistDiscographyComponent implements OnInit {
-  constructor() {}
-  albums: any;
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private musicDataService: MusicDataService
+  ) {}
+  albumsByArtist: any;
   artist: any;
-  ngOnInit() {
-    this.artist = artistData;
 
-    // filter out duplicate album names
-    this.albums = albumData.items.filter(
-      (curValue, index, self) =>
-        self.findIndex(
-          (t) => t.name.toUpperCase() === curValue.name.toUpperCase()
-        ) === index
-    );
+  artistId: any;
+  paramSub: Subscription | undefined;
+  artistSub: Subscription | undefined;
+  albumSub: Subscription | undefined;
+  ngOnInit() {
+    // this.artist = artistData;
+
+    this.paramSub = this.activatedRoute.params.subscribe((par) => {
+      this.artistId = par['id'];
+    });
+
+    this.artistSub = this.musicDataService
+      .getArtistById(this.artistId)
+      .subscribe((result) => {
+        this.artist = result;
+      });
+
+    this.albumSub = this.musicDataService
+      .getAlbumsByArtistId(this.artistId)
+      .subscribe((result) => {
+        this.albumsByArtist = result.items.filter(
+          //// filter out duplicate album names
+          (curValue: any, index: any, self: any) =>
+            self.findIndex(
+              (t: any) => t.name.toUpperCase() === curValue.name.toUpperCase()
+            ) === index
+        );
+      });
+  }
+  ngOnDestroy() {
+    if (this.paramSub) {
+      this.paramSub.unsubscribe();
+    }
+    if (this.artistSub) {
+      this.artistSub.unsubscribe();
+    }
+    if (this.albumSub) {
+      this.albumSub.unsubscribe();
+    }
   }
 }

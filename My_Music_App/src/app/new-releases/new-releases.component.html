@@ -11,7 +11,7 @@
       >
         <!--TODO: add routing -->
 
-        <a routerLinkActive="active" href="#"
+        <a routerLinkActive="active" routerLink="/album/{{ release.id }}"
           ><img
             src="{{ release.images[0].url }}"
             class="card-img-top img-fluid"
@@ -31,7 +31,7 @@
             <!--TODO: add routing -->
 
             <a
-              href="#"
+              routerLink="/artist/{{ release.artists.id }}"
               routerLinkActive="active"
               class="badge bg-primary"
               *ngFor="let artist of release.artists"
