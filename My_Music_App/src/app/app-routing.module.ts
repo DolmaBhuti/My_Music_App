@@ -5,6 +5,8 @@ import { AlbumComponent } from './album/album.component';
 import { ArtistDiscographyComponent } from './artist-discography/artist-discography.component';
 import { NewReleasesComponent } from './new-releases/new-releases.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { SearchResultsComponent } from './search-results/search-results.component';
+import { FavouritesComponent } from './favourites/favourites.component';
 const routes: Routes = [
   {
     path: 'newReleases',
@@ -24,6 +26,16 @@ const routes: Routes = [
   {
     path: 'about',
     component: AboutComponent,
+    //canActivate: [GuardAuthService]
+  },
+  {
+    path: 'search',
+    component: SearchResultsComponent,
+    //canActivate: [GuardAuthService]
+  },
+  {
+    path: 'favourites',
+    component: FavouritesComponent,
     //canActivate: [GuardAuthService]
   },
 ];

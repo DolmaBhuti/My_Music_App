@@ -34,13 +34,31 @@
                 >New Releases</a
               >
             </li>
-            <li><a class="dropdown-item" href="#">Favourites</a></li>
+            <li>
+              <a
+                class="dropdown-item"
+                routerLink="/favourites"
+                routerLinkActive="active"
+                >Favourites</a
+              >
+            </li>
             <li><hr class="dropdown-divider" /></li>
             <li><a class="dropdown-item" href="#">Something else here</a></li>
           </ul>
         </li>
         <li class="nav-item"><a href="#" class="nav-link">About</a></li>
       </ul>
+      <form class="d-flex" (ngSubmit)="handleSearch()">
+        <input
+          class="form-control me-2"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+          name="searchString"
+          [(ngModel)]="searchString"
+        />
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
 
       <ul class="d-flex navbar-nav mb-2 mb-lg-0">
         <li class="nav-item" *ngIf="userName">

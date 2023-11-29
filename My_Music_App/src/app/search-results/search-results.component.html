@@ -1,0 +1,36 @@
+<!-- • The searchQuery in the header • One result "card' per "result" (Artist) • The
+Artist's Name • The image for the Artist • routerLink="/artist" – Must now link
+to "/artist/id" where id is the "id" value of the current "result", ie:
+"result.id" • The total followers for the Artist • The popularity of the Artist -->
+
+<section class="search query">
+  <h1>Artists related to {{ searchQuery }}</h1>
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div
+        class="card col-sm-6 col-md-4 col-lg-3"
+        style="width: 20rem"
+        *ngFor="let artist of results"
+      >
+        <!--TODO: add routing -->
+
+        <a routerLinkActive="active" routerLink="/artist/{{ artist.id }}"
+          ><img
+            src="{{ artist.images[0].url }}"
+            class="card-img-top img-fluid"
+            alt="artist cover"
+        /></a>
+        <div class="card-body">
+          <h5 class="card-title">
+            {{ artist.name }}
+          </h5>
+
+          <p class="card-text">
+            <strong>Followers: </strong>{{ artist.followers.total }}<br />
+            <strong>Popularity: </strong>{{ artist.popularity }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

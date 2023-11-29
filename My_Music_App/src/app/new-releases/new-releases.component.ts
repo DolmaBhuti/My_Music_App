@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-//import data from '../data/NewReleasesAlbums.json';
 import { MusicDataService } from '../music-data.service';
 import { Subscription } from 'rxjs';
 
@@ -10,10 +9,11 @@ import { Subscription } from 'rxjs';
   styleUrl: './new-releases.component.scss',
 })
 export class NewReleasesComponent implements OnInit {
+  constructor(private musicService: MusicDataService) {}
+
   //properties
   releases: any;
   private subscription: Subscription | undefined;
-  constructor(private musicService: MusicDataService) {}
 
   //invoked after component is initialized
   ngOnInit(): void {

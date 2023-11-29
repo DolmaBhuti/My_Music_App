@@ -10,8 +10,6 @@ import { ActivatedRoute } from '@angular/router';
 import { MusicDataService } from '../music-data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-//import albumData from '../data/SearchResultsAlbum.json';
-
 @Component({
   selector: 'app-album',
   standalone: false,
@@ -32,6 +30,7 @@ export class AlbumComponent implements OnInit {
   paramSub: Subscription | undefined;
   albumSub: Subscription | undefined;
 
+  //methods
   public addToFavourites(trackID: any): void {
     this.addToFav = this.musicService.addToFavourites(trackID);
 

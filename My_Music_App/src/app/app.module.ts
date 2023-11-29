@@ -18,7 +18,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { NewReleasesComponent } from './new-releases/new-releases.component';
 import { AlbumComponent } from './album/album.component';
 import { ArtistDiscographyComponent } from './artist-discography/artist-discography.component';
-
+import { FavouritesComponent } from './favourites/favourites.component';
+import { SearchResultsComponent } from './search-results/search-results.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,6 +28,8 @@ import { ArtistDiscographyComponent } from './artist-discography/artist-discogra
     NewReleasesComponent,
     AlbumComponent,
     ArtistDiscographyComponent,
+    FavouritesComponent,
+    SearchResultsComponent,
   ],
   imports: [
     BrowserModule,

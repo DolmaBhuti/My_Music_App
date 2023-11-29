@@ -1,0 +1,47 @@
+<!-- • One "favourite" card per "favourites" (track) 
+• The Music Icon (ie: "<mat-icon mat-list-icon>queue_music</mat-icon>" within the track listing must respond to  a "click" event that invokes the function removeFromFavourites(id) where id is the "id" value of the current  "track", ie: "track.id" 
+• The track's name 
+• The track's duration 
+• One or more artists (track.artists), making sure to show the artist's name (artist.name) as well as update:
+o routerLink="/artist" – to "/artist/id" where id is the "id" value of the current "artist", ie: "artist.id" • The album name (ie: track.album.name) 
+• routerLink="/album" - Must now link to "/album/id" where id is the "id" value of the current "album", ie:  "track.album.id"  -->
+
+<section class="favourite-tracks">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <h2 class="text-center">My Fav Tracks</h2>
+      <ol class="list-group list-group-numbered w-50">
+        <li class="list-group-item" *ngFor="let track of favouriteTracks">
+          {{ track.name }} - {{ (track.duration_ms / 60000).toFixed(2) }}
+
+          <!--TODO add audio-->
+          <!--track preview -->
+          <span *ngIf="track.preview_url">
+            <br /><audio controls [src]="track.preview_url"></audio>
+          </span>
+          <!-- One or more artists (track.artists) -->
+          <a
+            routerLink="/artist/{{ artist.id }}"
+            routerLinkActive="active"
+            class="fs-6"
+            *ngFor="let artist of track.artists"
+            >{{ artist.name }}</a
+          >
+          <a
+            routerLink="/album/{{ track.album?.id }}"
+            routerLinkActive="active"
+            class="fs-6"
+            >{{ track.album.name }}</a
+          >
+          <a class="btn" (click)="removeFromFavourites(track.id)">
+            <img
+              src="../../assets/images/heartbreak.svg"
+              alt="Remove from favourite"
+            />
+          </a>
+          <!-- NOTE 3.34 was determined by using (duration_ms / 60000).toFixed(2) -->
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>

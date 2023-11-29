@@ -1,4 +1,4 @@
-<div class="content">
+<section class="content">
   <div class="container-fluid">
     <div class="row justify-content-center">
       <!--album info-->
@@ -46,23 +46,32 @@
     <div class="row justify-content-center">
       <h2 class="text-center">Tracks</h2>
       <ol class="list-group list-group-numbered w-50">
-        <li class="list-group-item" *ngFor="let track of album?.tracks.items">
-          <!--Add track to Favourites-->
-          <button class="btn" (click)="addToFavourites(track.id)">
-            <img src="../../assets/images/heart.svg" alt="Favourite" />
-          </button>
-
-          {{ track.name }} - {{ (track.duration_ms / 60000).toFixed(2) }}
+        <li
+          class="list-group-item d-flex justify-content-around align-items-center"
+          *ngFor="let track of album?.tracks.items"
+        >
+          <div class="fs-4">
+            {{ track.name }} - {{ (track.duration_ms / 60000).toFixed(2) }}
+          </div>
+          <div>
+            By
+            <span *ngFor="let artist of track.artists"
+              ><p>{{ artist.name }}</p></span
+            >
+          </div>
 
           <!--TODO add audio-->
           <!--track preview -->
-          <div class="btn btn-success" *ngIf="track.preview_url">
-            <br /><audio controls [src]="track.preview_url"></audio>
+          <div *ngIf="track.preview_url">
+            <audio controls [src]="track.preview_url"></audio>
           </div>
-
+          <!--Add track to Favourites-->
+          <a (click)="addToFavourites(track.id)" class="btn">
+            <img src="../../assets/images/heart.svg" alt="Favourite" />
+          </a>
           <!-- NOTE 3.34 was determined by using (duration_ms / 60000).toFixed(2) -->
         </li>
       </ol>
     </div>
   </div>
-</div>
+</section>
