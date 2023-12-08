@@ -20,7 +20,6 @@ export class SpotifyTokenService implements OnDestroy {
     return new Observable((o) => {
       let auth = btoa(`${this.clientID}:${this.clientSecret}`);
       const authBody = new HttpParams().set('grant_type', 'client_credentials');
-      console.log('in getAccessToken function');
       this.tokenSub = this.http
         .post<any>(
           'https://accounts.spotify.com/api/token',
@@ -34,7 +33,7 @@ export class SpotifyTokenService implements OnDestroy {
         )
         .subscribe(
           (token) => {
-            console.log('in getAccessToken function ');
+            console.log('get spotify token');
             this.accessToken = token.access_token;
             this.accessTokenExpires = new Date();
             this.accessTokenExpires.setSeconds(

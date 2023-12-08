@@ -1,0 +1,78 @@
+<!-- class="m-5 w-50 border shadow p-3" -->
+
+<section>
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <form
+        #f="ngForm"
+        (ngSubmit)="onSubmit(f)"
+        class="my-3 p-3 shadow col-sm-8 col-md-6 col-lg-4 border-primary"
+      >
+        <h1 class="text-center">Register</h1>
+
+        <p class="text-danger" *ngIf="warning">{{ warning }}</p>
+
+        <div class="form-group mt-3">
+          <label for="email" class="mb-1">Email address</label>
+          <input
+            type="email"
+            class="form-control shadow-sm"
+            id="email"
+            name="email"
+            [(ngModel)]="registerUser.email"
+            aria-describedby="emailHelp"
+          />
+        </div>
+        <div class="form-group mt-3">
+          <label for="password" class="mb-1">Password</label>
+          <input
+            type="password"
+            class="form-control shadow-sm"
+            id="password"
+            name="password"
+            [(ngModel)]="registerUser.password"
+          />
+        </div>
+        <div class="form-group mt-3">
+          <label for="password2" class="mb-1">Confirm password</label>
+          <input
+            type="password"
+            class="form-control shadow-sm"
+            id="password2"
+            name="password2"
+            [(ngModel)]="registerUser.confirm_password"
+          />
+        </div>
+
+        <!-- Set the disabled property on the submit button if loading is true  -->
+        <button
+          type="submit"
+          class="btn btn-outline-primary mt-3 w-100"
+          [disabled]="loading"
+        >
+          Submit
+        </button>
+        <br />
+        <!-- Show a loading message after form has been submitted -->
+        <p class="mt-3 w-100 display-10" *ngIf="loading">
+          Processing Request...
+        </p>
+
+        <!--point to login page only if success is true  -->
+        <div *ngIf="success">
+          <p class="mt-3 w-100 display-10">
+            Registration Successful. Proceed to
+          </p>
+
+          <a
+            routerLink="/login"
+            routerActiveLink="active"
+            class="btn btn-warning w-100"
+          >
+            &nbsp;&nbsp;&nbsp;Login
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

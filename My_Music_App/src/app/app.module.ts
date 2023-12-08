@@ -3,14 +3,15 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule, Routes } from '@angular/router';
 
-import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms'; // <-- NgModel lives here
 
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 //components
 import { AppComponent } from './app.component';
 import { AboutComponent } from './about/about.component';
@@ -20,6 +21,9 @@ import { AlbumComponent } from './album/album.component';
 import { ArtistDiscographyComponent } from './artist-discography/artist-discography.component';
 import { FavouritesComponent } from './favourites/favourites.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
+import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
+import { InterceptTokenService } from './intercept-token.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,18 +34,26 @@ import { SearchResultsComponent } from './search-results/search-results.componen
     ArtistDiscographyComponent,
     FavouritesComponent,
     SearchResultsComponent,
+    RegisterComponent,
+    LoginComponent,
   ],
   imports: [
+    FormsModule,
     BrowserModule,
+    BrowserAnimationsModule,
     NgbModule, //bootstrap
     AppRoutingModule,
     RouterModule,
     HttpClientModule,
-    FormsModule,
-    BrowserAnimationsModule,
     MatSnackBarModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptTokenService,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,77 +1,113 @@
 <section class="content">
-  <div class="container-fluid">
-    <div class="row justify-content-center">
+  <div class="container-fluid bg-light">
+    <div class="row justify-content-center bg-secondary">
       <!--album info-->
-      <div class="card w-50 border-0">
+      <div class="card mt-5 border-0 bg-secondary">
         <img
           src="{{ album?.images[0].url }}"
-          class="card-img-top"
+          class="card-img-top mt-2"
           alt="album cover"
         />
-        <div class="card-body m-10" style="min-width: 300px">
-          <h5 class="card-title">
-            {{ album?.name }}
-          </h5>
-          <p class="card-text">
-            <strong>Record Label: </strong> {{ album?.label }}<br />
-            <strong>Release Date: </strong>
-            {{ album?.release_date | date : "MM/dd/YYYY" }}<br />
-
-            <strong>Tracks:</strong> {{ album?.total_tracks }}<br />
-            <strong>Popularity: </strong>{{ album?.popularity }}<br />
+        <div class="card-body m-10">
+          <p class="card-title fw-bold fs-1">
+            <strong>{{ album?.name }}</strong>
           </p>
-          <div class="d-flex gap-2" aria-label="Artist selection">
+          <div aria-label="Artist selection">
             <!--TODO: add routing -->
 
             <a
-              routerLink="/artist/{{ artist.id }}"
+              routerLink="/artist/{{ leadArtistId }}"
               routerLinkActive="active"
-              class="badge bg-primary fs-6"
-              *ngFor="let artist of album?.artists"
+              class="fs-5 text-dark"
             >
-              {{ artist.name }}</a
+              {{ leadArtistName }}</a
             >
           </div>
-          <div class="d-flex flex-column justify-content-center mt-3">
-            <div *ngFor="let copyright of album?.copyrights">
-              <p class="card-text fw-lighter">
-                {{ copyright.text }}
-              </p>
-            </div>
-          </div>
+          <p class="card-text fs-6">
+            Album &#8226; {{ album?.release_date | date : "YYYY" }} <br />
+          </p>
         </div>
       </div>
     </div>
-
-    <div class="row justify-content-center">
+    <!-- TRACKS sections -->
+    <div class="card mt-5 border-0 bg-light">
       <h2 class="text-center">Tracks</h2>
-      <ol class="list-group list-group-numbered w-50">
+      <ul class="list-group">
         <li
-          class="list-group-item d-flex justify-content-around align-items-center"
+          class="list-group-item d-flex border-0 bg-light"
           *ngFor="let track of album?.tracks.items"
         >
-          <div class="fs-4">
-            {{ track.name }} - {{ (track.duration_ms / 60000).toFixed(2) }}
+          <div *ngIf="track.preview_url">
+            <audio [src]="track.preview_url" id="audio"></audio>
           </div>
-          <div>
-            By
-            <span *ngFor="let artist of track.artists"
-              ><p>{{ artist.name }}</p></span
-            >
+          <!-- <button
+            type="button"
+            (click)="play(track.preview_url)"
+            class="w-100 bg-light border-0 text-start"
+          > -->
+          <div class="d-flex flex-column">
+            <p class="text-nowrap">
+              {{ track.name }}
+            </p>
+            <div class="d-flex gap-1">
+              <p
+                *ngFor="let artist of track.artists"
+                class="font-weight-light badge bg-secondary"
+              >
+                {{ artist.name }}
+              </p>
+            </div>
           </div>
 
-          <!--TODO add audio-->
-          <!--track preview -->
-          <div *ngIf="track.preview_url">
-            <audio controls [src]="track.preview_url"></audio>
-          </div>
+          <!--TODO play audio when song is clicked-->
           <!--Add track to Favourites-->
-          <a (click)="addToFavourites(track.id)" class="btn">
-            <img src="../../assets/images/heart.svg" alt="Favourite" />
-          </a>
-          <!-- NOTE 3.34 was determined by using (duration_ms / 60000).toFixed(2) -->
+          <div
+            class="w-100 d-flex gap-1 justify-content-end align-items-center"
+          >
+            <a (click)="addToFavourites(track.id)" class="">
+              <img src="../../assets/images/heart.svg" alt="Favourite" />
+            </a>
+            <a (click)="play(track.preview_url)" class="">
+              <img
+                src="../../assets/images/play-circle-fill.svg"
+                alt="Favourite"
+              />
+            </a>
+            <a (click)="stop()" class="">
+              <img
+                src="../../assets/images/pause-circle-fill.svg"
+                alt="Favourite"
+              />
+            </a>
+          </div>
         </li>
-      </ol>
+      </ul>
+    </div>
+    <!-- mt-5 border-0 bg-light -->
+    <!-- <div > -->
+    <!-- <div class="d-flex flex-column gap-0 justify-content-center mt-3"> -->
+    <div class="row border-top mt-5">
+      <div class="ms-3 w-75">
+        <p class="mb-0">
+          {{ album?.release_date | date : "MMMM d, y" }} <br />
+        </p>
+        <p class="mb-0" *ngIf="album?.total_tracks == 1">
+          {{ album?.total_tracks }} song<br />
+        </p>
+
+        <p *ngIf="album?.total_tracks > 1" class="mb-0">
+          {{ album?.total_tracks }} songs
+        </p>
+
+        <p class="mb-0">
+          Current Popularity &#8226; Top {{ 100 - album?.popularity }}%<br />
+        </p>
+      </div>
+      <p class="mt-5 mb-0 ms-3">{{ album?.label }}<br /></p>
+      <div class="mt-0 ms-3" *ngFor="let copyright of album?.copyrights">
+        <p class="card-text font-weight-light">{{ copyright.text }}<br /></p>
+      </div>
     </div>
   </div>
+  <!-- </div> -->
 </section>

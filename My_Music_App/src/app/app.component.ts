@@ -1,26 +1,56 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { AuthService } from './auth.service';
 
-//import { AboutComponent } from './about/about.component';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
-  constructor(private modalService: NgbModal, private router: Router) {}
+export class AppComponent implements OnDestroy, OnInit {
+  constructor(
+    private modalService: NgbModal,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   searchString: any;
+  public accessToken: any;
+  logoutSub: Subscription | undefined;
+  email: any;
+
   public handleSearch() {
     //programmatically navigate //import Router, use navigate method
     console.log('searchString: ' + this.searchString);
     this.router.navigate(['search'], { queryParams: { q: this.searchString } });
     this.searchString = '';
   }
-
-  userName = 'John Smith';
-  public open(modal: any): void {
-    this.modalService.open(modal);
+  logout() {
+    this.logoutSub = this.authService.logout().subscribe(
+      (result) => {
+        console.log('successfully logged out');
+      },
+      (err) => {
+        console.error('Error logging out', err);
+      }
+    );
+    this.router.navigate(['/login']);
+  }
+  //event instanceof NavigationStart
+  ngOnInit(): void {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        // only read the token on "NavigationStart"
+        this.accessToken = this.authService.readToken();
+        this.email = this.authService.getEmail();
+      }
+    });
+  }
+  ngOnDestroy(): void {
+    if (this.logoutSub) {
+      this.logoutSub.unsubscribe();
+    }
   }
 }

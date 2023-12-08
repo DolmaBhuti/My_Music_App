@@ -10,8 +10,8 @@ o routerLink="/artist" – to "/artist/id" where id is the "id" value of the cur
   <div class="container-fluid">
     <div class="row justify-content-center">
       <h2 class="text-center">My Fav Tracks</h2>
-      <ol class="list-group list-group-numbered w-50">
-        <li class="list-group-item" *ngFor="let track of favouriteTracks">
+      <ol class="list-group list-group-numbered border">
+        <li class="list-group-item" *ngFor="let track of favouritesList">
           {{ track.name }} - {{ (track.duration_ms / 60000).toFixed(2) }}
 
           <!--TODO add audio-->
@@ -19,6 +19,7 @@ o routerLink="/artist" – to "/artist/id" where id is the "id" value of the cur
           <span *ngIf="track.preview_url">
             <br /><audio controls [src]="track.preview_url"></audio>
           </span>
+          <br />
           <!-- One or more artists (track.artists) -->
           <a
             routerLink="/artist/{{ artist.id }}"
@@ -27,6 +28,7 @@ o routerLink="/artist" – to "/artist/id" where id is the "id" value of the cur
             *ngFor="let artist of track.artists"
             >{{ artist.name }}</a
           >
+          <br />
           <a
             routerLink="/album/{{ track.album?.id }}"
             routerLinkActive="active"
@@ -39,7 +41,6 @@ o routerLink="/artist" – to "/artist/id" where id is the "id" value of the cur
               alt="Remove from favourite"
             />
           </a>
-          <!-- NOTE 3.34 was determined by using (duration_ms / 60000).toFixed(2) -->
         </li>
       </ol>
     </div>

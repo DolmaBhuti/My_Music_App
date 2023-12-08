@@ -6,40 +6,28 @@ import { Subscription } from 'rxjs';
   templateUrl: './favourites.component.html',
   styleUrl: './favourites.component.scss',
 })
-export class FavouritesComponent {
+export class FavouritesComponent implements OnInit, OnDestroy {
   constructor(private musicService: MusicDataService) {}
 
-  favouriteTracks: any;
-  favSub: Subscription | undefined;
-  removeFavSub: Subscription | undefined;
+  favouritesList: Array<any> = [];
+  private favSub: Subscription | undefined;
+  private removeSubs: Subscription | undefined;
 
-  public removeFromFavourites(trackId: any) {
-    this.removeFavSub = this.musicService
-      .removeFromFavourites(trackId)
-      .subscribe(
-        (result) => {
-          this.favouriteTracks = result.tracks;
-        },
-        (err) => {
-          console.log('Error removing track from favourites');
-        }
-      );
+  public removeFromFavourites(id: any): void {
+    this.removeSubs = this.musicService
+      .removeFromFavourites(id)
+      .subscribe((data) => {
+        this.favouritesList = data.tracks;
+      });
   }
 
-  ngOnInIt(): void {
-    this.favSub = this.musicService.getFavourites().subscribe(
-      (result) => {
-        console.log('favs result', result);
-        this.favouriteTracks = result.tracks;
-      },
-      (err) => {
-        console.error('Error getting favourites', err);
-      }
-    );
+  ngOnInit(): void {
+    this.favSub = this.musicService.getFavourites().subscribe((data) => {
+      this.favouritesList = data.tracks;
+    });
   }
   ngOnDestroy(): void {
-    if (this.favSub) {
-      this.favSub.unsubscribe();
-    }
+    this.favSub?.unsubscribe();
+    this.removeSubs?.unsubscribe();
   }
 }
