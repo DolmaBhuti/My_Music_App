@@ -65,19 +65,22 @@
             <div
               class="w-100 d-flex gap-2 justify-content-end align-items-center"
             >
-              <a (click)="addToFavourites(track.id)" class="">
-                <img src="../../assets/images/heart.svg" alt="Favourite" />
-              </a>
-              <a (click)="play(track.preview_url)" class="">
+              <a (click)="addToFavourites(track.id)">
                 <img
-                  src="../../assets/images/play-circle-fill.svg"
-                  alt="Favourite"
+                  src="../../assets/images/heart.svg"
+                  alt="Favourite button"
                 />
               </a>
-              <a (click)="stop()" class="">
+              <a (click)="play(track.preview_url)">
+                <img
+                  src="../../assets/images/play-circle-fill.svg"
+                  alt="Play track button"
+                />
+              </a>
+              <a (click)="stop()">
                 <img
                   src="../../assets/images/pause-circle-fill.svg"
-                  alt="Favourite"
+                  alt="Stop track button"
                 />
               </a>
             </div>

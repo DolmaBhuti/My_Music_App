@@ -5,44 +5,73 @@
 • One or more artists (track.artists), making sure to show the artist's name (artist.name) as well as update:
 o routerLink="/artist" – to "/artist/id" where id is the "id" value of the current "artist", ie: "artist.id" • The album name (ie: track.album.name) 
 • routerLink="/album" - Must now link to "/album/id" where id is the "id" value of the current "album", ie:  "track.album.id"  -->
-
 <section class="favourite-tracks">
   <div class="container-fluid">
-    <div class="row justify-content-center">
-      <h2 class="text-center">My Fav Tracks</h2>
-      <ol class="list-group list-group-numbered border">
-        <li class="list-group-item" *ngFor="let track of favouritesList">
-          {{ track.name }} - {{ (track.duration_ms / 60000).toFixed(2) }}
+    <!-- TRACKS sections -->
+    <div class="row d-flex justify-content-center">
+      <div class="card mt-5 border-0 col-sm-12 col-md-8 col-lg-6">
+        <h2 class="text-center">My Likes</h2>
+        <ul class="list-group">
+          <li
+            class="list-group-item d-flex border-0"
+            *ngFor="let track of favouritesList"
+          >
+            <div *ngIf="track.preview_url">
+              <audio [src]="track.preview_url" id="audio"></audio>
+            </div>
+            <!-- <button
+            type="button"
+            (click)="play(track.preview_url)"
+            class="w-100  border-0 text-start"
+          > -->
+            <div class="d-flex flex-column">
+              <p class="text-nowrap mb-0">
+                {{ track.name }}
+              </p>
+              <a
+                routerLink="/album/{{ track.album?.id }}"
+                routerLinkActive="active"
+                class="fs-6 text-light fw-lighter text-dark text-decoration-none text-nowrap mb-1"
+                >Album &#8226; {{ track.album.name }}</a
+              >
 
-          <!--TODO add audio-->
-          <!--track preview -->
-          <span *ngIf="track.preview_url">
-            <br /><audio controls [src]="track.preview_url"></audio>
-          </span>
-          <br />
-          <!-- One or more artists (track.artists) -->
-          <a
-            routerLink="/artist/{{ artist.id }}"
-            routerLinkActive="active"
-            class="fs-6"
-            *ngFor="let artist of track.artists"
-            >{{ artist.name }}</a
-          >
-          <br />
-          <a
-            routerLink="/album/{{ track.album?.id }}"
-            routerLinkActive="active"
-            class="fs-6"
-            >{{ track.album.name }}</a
-          >
-          <a class="btn" (click)="removeFromFavourites(track.id)">
-            <img
-              src="../../assets/images/heartbreak.svg"
-              alt="Remove from favourite"
-            />
-          </a>
-        </li>
-      </ol>
+              <div class="d-flex gap-1">
+                <p
+                  *ngFor="let artist of track.artists"
+                  class="font-weight-light badge bg-secondary"
+                >
+                  {{ artist.name }}
+                </p>
+              </div>
+            </div>
+
+            <!--TODO play audio when song is clicked-->
+            <!--Add track to Favourites-->
+            <div
+              class="w-100 d-flex gap-2 justify-content-end align-items-center"
+            >
+              <a (click)="removeFromFavourites(track.id)">
+                <img
+                  src="../../assets/images/heartbreak.svg"
+                  alt="Favourite button"
+                />
+              </a>
+              <a (click)="play(track.preview_url)">
+                <img
+                  src="../../assets/images/play-circle-fill.svg"
+                  alt="Play track button"
+                />
+              </a>
+              <a (click)="stop()">
+                <img
+                  src="../../assets/images/pause-circle-fill.svg"
+                  alt="Stop track button"
+                />
+              </a>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>

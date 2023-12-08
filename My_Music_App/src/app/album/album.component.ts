@@ -52,6 +52,7 @@ export class AlbumComponent implements OnInit {
         this.snackBar.open('Adding to Favorites...', 'Done', {
           duration: 1500,
         });
+        console.log(result);
       },
       (err) => {
         this.snackBar.open('Unable to add song to Favourites', '', {
