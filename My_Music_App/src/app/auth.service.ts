@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from './../environments/environment';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import User from './User';
 import RegisterUser from './RegisterUser';
-import { env } from 'process';
 
 const helper = new JwtHelperService();
 
@@ -64,12 +63,17 @@ export class AuthService {
     return this.http.post<any>(`${environment.userAPIBase}/login`, user);
   }
   logout() {
-    const refreshToken = localStorage.getItem('refreshToken');
-    localStorage.clear();
+    const rToken = localStorage.getItem('refreshToken');
 
+    const options = {};
+    localStorage.clear();
     console.log('localStorage length' + localStorage.length);
-    return this.http.post<any>(`${environment.userAPIBase}/logout`, {
-      refreshToken,
+
+    return this.http.delete<any>(`${environment.userAPIBase}/logout`, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: { refreshToken: rToken },
     });
   }
 
