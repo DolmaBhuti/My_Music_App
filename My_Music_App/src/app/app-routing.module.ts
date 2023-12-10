@@ -9,37 +9,37 @@ import { SearchResultsComponent } from './search-results/search-results.componen
 import { FavouritesComponent } from './favourites/favourites.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
-
+import { GuardAuthService } from './guard-auth.service';
 const routes: Routes = [
   {
     path: 'newReleases',
     component: NewReleasesComponent,
-    // canActivate: [GuardAuthService],
+    canActivate: [GuardAuthService],
   },
   {
     path: 'artist/:id',
     component: ArtistDiscographyComponent,
-    // canActivate: [GuardAuthService],
+    canActivate: [GuardAuthService],
   },
   {
     path: 'album/:id',
     component: AlbumComponent,
-    // canActivate: [GuardAuthService],
+    canActivate: [GuardAuthService],
   },
   {
     path: 'about',
     component: AboutComponent,
-    //canActivate: [GuardAuthService]
+    canActivate: [GuardAuthService],
   },
   {
     path: 'search',
     component: SearchResultsComponent,
-    //canActivate: [GuardAuthService]
+    canActivate: [GuardAuthService],
   },
   {
     path: 'favourites',
     component: FavouritesComponent,
-    //canActivate: [GuardAuthService]
+    canActivate: [GuardAuthService],
   },
   {
     path: 'register',
@@ -49,6 +49,10 @@ const routes: Routes = [
     path: 'login',
     component: LoginComponent,
   },
+
+  // default component
+  { path: '', component: NewReleasesComponent },
+  { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({

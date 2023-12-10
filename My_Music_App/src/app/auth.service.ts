@@ -42,21 +42,25 @@ export class AuthService {
       return false;
     }
   }
-
+  isTokenExpired() {
+    const token = this.readToken();
+    if (!!token && !helper.isTokenExpired(token)) {
+      return false;
+    } else {
+      return true;
+    }
+  }
   public getRefreshToken() {
     return localStorage.getItem('refreshToken');
   }
 
-  refreshToken(token: string) {
-    return this.http.post(
-      this.authAPI + 'refreshtoken',
-      {
-        refreshToken: this.getRefreshToken(),
-      },
-      {
-        headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      }
-    );
+  refreshToken() {
+    return this.http.post(this.authAPI + 'refreshtoken', {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: { refreshToken: this.getRefreshToken() },
+    });
   }
 
   login(user: User): Observable<any> {
@@ -64,8 +68,6 @@ export class AuthService {
   }
   logout() {
     const rToken = localStorage.getItem('refreshToken');
-
-    const options = {};
     localStorage.clear();
     console.log('localStorage length' + localStorage.length);
 
