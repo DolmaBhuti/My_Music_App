@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,11 @@ import { Router } from '@angular/router';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnDestroy {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private title: Title
+  ) {}
 
   loading: any = false;
   warning: string = '';
@@ -46,7 +51,9 @@ export class LoginComponent implements OnDestroy {
       );
     }
   }
-  // ngOnInIt(): void {}
+  ngOnInIt(): void {
+    this.title.setTitle('Sign In');
+  }
   ngOnDestroy(): void {
     if (this.loginSub) {
       this.loginSub.unsubscribe();

@@ -3,7 +3,7 @@
 >
   <h1 class="mt-3">New Releases</h1>
   <div class="container-fluid d-flex justify-content-center">
-    <div class="row" style="width: 90%">
+    <div class="row row-of-album">
       <div
         class="card col-md-6 col-lg-3 border-0"
         *ngFor="let release of releases"
@@ -35,7 +35,7 @@
           <div class="d-flex gap-1 mt-1" aria-label="Artist selection">
             <a
               *ngFor="let artist of release.artists"
-              class="font-weight-light badge bg-secondary"
+              class="font-weight-light badge bg-secondary text-decoration-none"
               routerLink="/artist/{{ release.artists.id }}"
               routerLinkActive="active"
             >

@@ -1,13 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MusicDataService } from '../music-data.service';
 import { Subscription } from 'rxjs';
+import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-favourites',
   templateUrl: './favourites.component.html',
   styleUrl: './favourites.component.scss',
 })
 export class FavouritesComponent implements OnInit, OnDestroy {
-  constructor(private musicService: MusicDataService) {}
+  constructor(private musicService: MusicDataService, private title: Title) {}
 
   favouritesList: Array<any> = [];
   private favSub: Subscription | undefined;
@@ -48,6 +49,9 @@ export class FavouritesComponent implements OnInit, OnDestroy {
     audioElement.pause();
   }
   ngOnInit(): void {
+    //set title
+    this.title.setTitle('My Favourites');
+
     this.favSub = this.musicService.getFavourites().subscribe((data) => {
       this.favouritesList = data.tracks;
     });

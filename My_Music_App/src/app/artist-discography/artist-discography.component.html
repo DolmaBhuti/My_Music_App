@@ -1,42 +1,70 @@
 <div class="content">
   <div class="container-fluid">
     <!-- artist card -->
-    <div class="row justify-content-center">
-      <div class="card w-50 border-0">
-        <div class="card-body">
-          <img
-            src="{{ artist?.images[0].url }}"
-            class="card-img-top"
-            alt="artist cover"
-          />
-          <h5 class="card-title text-center mt-3">{{ artist?.name }}</h5>
+    <div class="row d-flex justify-content-center">
+      <div class="card mt-5 border-0 bg-secondary col-sm-12 col-md-8">
+        <img
+          src="{{ artist?.images[0].url }}"
+          class="card-img-top mt-2"
+          alt="artist cover"
+        />
+        <div class="card-body m-10">
+          <p class="card-title fw-bold fs-1">
+            <strong>{{ artist?.name }}</strong>
+          </p>
+          <p class="card-text fs-6">
+            {{ artist?.followers.total.toLocaleString() }} followers <br />
+            Current Popularity &#8226; Top {{ 100 - artist?.popularity }}%<br />
+          </p>
         </div>
       </div>
     </div>
 
     <!-- Album Cards-->
-    <h1 class="p-1 text-center">Full Discography</h1>
-
-    <div class="row">
-      <div
-        class="col-sm-6 col-md-4 col-lg-3"
-        *ngFor="let album of albumsByArtist"
-      >
-        <div class="card border-0">
-          <div class="card-body">
-            <!--TODO: add routing -->
-
+    <div
+      class="content d-flex flex-column align-items-center justify-content-center"
+    >
+      <h1 class="mt-3">Full Discography</h1>
+      <div class="container-fluid d-flex justify-content-center">
+        <div class="row row-of-artist-albums">
+          <div
+            class="card col-md-6 col-lg-3 border-0"
+            *ngFor="let album of albumsByArtist"
+          >
             <a routerLink="/album/{{ album.id }}" routerActiveLink="active">
               <img
                 src="{{ album.images[0].url }}"
                 class="card-img-top"
                 alt="album cover"
             /></a>
-            <h5 class="card-title">{{ album.name }}</h5>
-            <p class="card-text">
-              <strong>Tracks:</strong> {{ album.total_tracks }}<br />
-              <strong>Popularity: </strong>{{ album.popularity }}<br />
-            </p>
+
+            <div class="card-body">
+              <!--TODO: add routing -->
+
+              <p class="card-title fw-bold fs-6">
+                <strong>{{ album.name }}</strong>
+              </p>
+              <p class="cart-subtitle text-muted mb-0">
+                {{ album?.release_date | date : "MMMM d, y" }} <br />
+              </p>
+              <p class="mb-0" *ngIf="album?.total_tracks == 1">
+                {{ album?.total_tracks }} song<br />
+              </p>
+
+              <p *ngIf="album?.total_tracks > 1" class="mb-0">
+                {{ album?.total_tracks }} songs
+              </p>
+              <div class="d-flex gap-1 mt-1" aria-label="Artist selection">
+                <a
+                  *ngFor="let artist of album?.artists"
+                  class="font-weight-light badge bg-secondary text-decoration-none"
+                  routerLink="/artist/{{ album?.artists.id }}"
+                  routerLinkActive="active"
+                >
+                  {{ artist.name }}
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>

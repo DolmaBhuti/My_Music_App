@@ -2,6 +2,7 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MusicDataService } from '../music-data.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-artist-discography',
@@ -12,7 +13,8 @@ import { MusicDataService } from '../music-data.service';
 export class ArtistDiscographyComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
-    private musicDataService: MusicDataService
+    private musicDataService: MusicDataService,
+    private title: Title
   ) {}
   albumsByArtist: any;
   artist: any;
@@ -22,8 +24,6 @@ export class ArtistDiscographyComponent implements OnInit {
   artistSub: Subscription | undefined;
   albumSub: Subscription | undefined;
   ngOnInit() {
-    // this.artist = artistData;
-
     this.paramSub = this.activatedRoute.params.subscribe((par) => {
       this.artistId = par['id'];
     });
@@ -32,6 +32,9 @@ export class ArtistDiscographyComponent implements OnInit {
       .getArtistById(this.artistId)
       .subscribe((result) => {
         this.artist = result;
+        //set title
+        this.title.setTitle(this.artist.name);
+        console.log(this.artist);
       });
 
     this.albumSub = this.musicDataService

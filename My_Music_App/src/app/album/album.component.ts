@@ -18,6 +18,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { MusicDataService } from '../music-data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-album',
@@ -32,7 +33,8 @@ export class AlbumComponent implements OnInit {
   constructor(
     private musicService: MusicDataService,
     private activatedRoute: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private title: Title
   ) {}
 
   //properties
@@ -88,6 +90,9 @@ export class AlbumComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //set title
+    this.title.setTitle('');
+
     //get id from params using activated route
     this.paramSub = this.activatedRoute.params.subscribe((params) => {
       this.albumId = params['id'];
@@ -103,6 +108,9 @@ export class AlbumComponent implements OnInit {
         this.leadArtistName = result.artists[0].name;
         this.leadArtistId = result.artists[0].id;
         console.log(this.leadArtistName + ' ' + this.leadArtistId);
+
+        //set title
+        this.title.setTitle(this.album.name);
       });
   }
   ngOnDestroy(): void {

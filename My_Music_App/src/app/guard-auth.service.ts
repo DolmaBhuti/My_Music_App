@@ -16,11 +16,6 @@ export class GuardAuthService {
       this.router.navigate(['/login']);
       return false;
     }
-    //check if accessToken is expired
-    if (this.auth.isTokenExpired()) {
-      this.auth.refreshToken();
-    }
-
     return true;
   }
 }

@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MusicDataService } from '../music-data.service';
 import { Subscription } from 'rxjs';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-new-releases',
@@ -8,8 +9,8 @@ import { Subscription } from 'rxjs';
   templateUrl: './new-releases.component.html',
   styleUrl: './new-releases.component.scss',
 })
-export class NewReleasesComponent implements OnInit {
-  constructor(private musicService: MusicDataService) {}
+export class NewReleasesComponent implements OnInit, OnDestroy {
+  constructor(private musicService: MusicDataService, private title: Title) {}
 
   //properties
   releases: any;
@@ -17,7 +18,7 @@ export class NewReleasesComponent implements OnInit {
 
   //invoked after component is initialized
   ngOnInit(): void {
-    //this.releases = data.albums.items;
+    this.title.setTitle('New Releases');
     this.subscription = this.musicService.getNewReleases().subscribe(
       (result) => {
         console.log(result, 'from new releases component');

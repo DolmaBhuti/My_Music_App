@@ -2,7 +2,7 @@
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -53,6 +53,7 @@ import { InterceptTokenService } from './intercept-token.service';
       useClass: InterceptTokenService,
       multi: true,
     },
+    Title,
   ],
   bootstrap: [AppComponent],
 })

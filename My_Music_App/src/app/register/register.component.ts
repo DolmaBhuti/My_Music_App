@@ -1,16 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../auth.service';
 import { NgForm } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnDestroy, OnInit {
   //NOTE: this is the  data that is synced to the form
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private title: Title) {}
   registerUser = {
     email: '',
     password: '',
@@ -42,6 +43,14 @@ export class RegisterComponent {
             this.warning = err.error.message;
           }
         );
+    }
+  }
+  ngOnInit(): void {
+    this.title.setTitle('Register');
+  }
+  ngOnDestroy(): void {
+    if (this.registerSub) {
+      this.registerSub.unsubscribe();
     }
   }
 }

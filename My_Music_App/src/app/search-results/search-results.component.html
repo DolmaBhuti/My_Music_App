@@ -3,13 +3,14 @@ Artist's Name • The image for the Artist • routerLink="/artist" – Must now
 to "/artist/id" where id is the "id" value of the current "result", ie:
 "result.id" • The total followers for the Artist • The popularity of the Artist -->
 
-<section class="search query">
-  <h1>Artists related to {{ searchQuery }}</h1>
-  <div class="container-fluid">
-    <div class="row justify-content-center">
+<div
+  class="content d-flex flex-column align-items-center justify-content-center"
+>
+  <h1 class="mt-3">Artists related to {{ searchQuery }}</h1>
+  <div class="container-fluid d-flex justify-content-center">
+    <div class="row row-of-artist">
       <div
-        class="card col-sm-6 col-md-4 col-lg-3"
-        style="width: 20rem"
+        class="card col-md-6 col-lg-3 border-0"
         *ngFor="let artist of results"
       >
         <!--TODO: add routing -->
@@ -21,16 +22,16 @@ to "/artist/id" where id is the "id" value of the current "result", ie:
             alt="artist cover"
         /></a>
         <div class="card-body">
-          <h5 class="card-title">
-            {{ artist.name }}
+          <h5 class="card-title fw-bold fs-6">
+            <strong>{{ artist.name }}</strong>
           </h5>
 
-          <p class="card-text">
-            <strong>Followers: </strong>{{ artist.followers.total }}<br />
-            <strong>Popularity: </strong>{{ artist.popularity }}
+          <p class="cart-subtitle text-muted">
+            {{ artist.followers.total.toLocaleString() }} followers<br />
+            Current Popularity &#8226; Top {{ 100 - artist.popularity }}%
           </p>
         </div>
       </div>
     </div>
   </div>
-</section>
+</div>

@@ -24,6 +24,9 @@ export class AuthService {
     // Retrieves the value associated with the key 'accessToken' from localStorage
     return localStorage.getItem('accessToken');
   }
+  public getRefreshToken() {
+    return localStorage.getItem('refreshToken');
+  }
   readToken() {
     //pulls the item "access_token" from "localStorage", however it uses "helper" from  "JwtHelperService()" to decode it
     const token = this.getToken();
@@ -35,27 +38,20 @@ export class AuthService {
   }
   isAuthenticated() {
     //pulls "access_token" from "localstorage". If the token was present in  localStorage, return true, otherwise return false
-    const token = this.readToken();
+    const token = this.getToken();
+    console.log(token, 'in isAuthenticated');
+
+    //check if accessToken is expired
     if (!!token && !helper.isTokenExpired(token)) {
       return true;
     } else {
+      this.refreshToken();
       return false;
     }
-  }
-  isTokenExpired() {
-    const token = this.readToken();
-    if (!!token && !helper.isTokenExpired(token)) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-  public getRefreshToken() {
-    return localStorage.getItem('refreshToken');
   }
 
   refreshToken() {
-    return this.http.post(this.authAPI + 'refreshtoken', {
+    return this.http.post(this.authAPI + 'refresh-token', {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
