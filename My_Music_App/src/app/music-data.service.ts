@@ -2,8 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { SpotifyTokenService } from './spotify-token.service';
-import { environment } from './../environments/environment';
+//import { environment } from './../environments/environment';
 import { catchError, mergeMap, switchMap } from 'rxjs/operators';
+import { EnvironmentService } from './environment.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,8 +12,11 @@ import { catchError, mergeMap, switchMap } from 'rxjs/operators';
 export class MusicDataService {
   constructor(
     private spotifyToken: SpotifyTokenService,
-    private http: HttpClient
+    private http: HttpClient,
+    private environmentService: EnvironmentService
   ) {}
+
+  private userAPIBase = this.environmentService.getUserAPIBase();
 
   //return an  Observable<any> that can be subscribed to in order to pull all of the new releases from the New Releases endpoint.
   getNewReleases(): Observable<any> {
@@ -88,14 +92,14 @@ export class MusicDataService {
     const trackId = { id: id };
     console.log('trackId', trackId);
     return this.http.put<[String]>(
-      `${environment.userAPIBase}/favourites/${id}`,
+      `${this.userAPIBase}/favourites/${id}`,
       trackId
     );
   }
 
   removeFromFavourites(id: string): Observable<any> {
     return this.http
-      .delete<[String]>(`${environment.userAPIBase}/favourites/${id}`)
+      .delete<[String]>(`${this.userAPIBase}/favourites/${id}`)
       .pipe(
         mergeMap((favouritesArray) => {
           // TODO: Perform the same tasks as the original getFavourites() method, only using "favouritesArray" from above, instead of this.favouritesList
@@ -109,32 +113,30 @@ export class MusicDataService {
       );
   }
   getFavourites(): Observable<any> {
-    return this.http
-      .get<string[]>(`${environment.userAPIBase}/favourites/`)
-      .pipe(
-        switchMap((favouritesArray: string[]) => {
-          if (favouritesArray.length > 0) {
-            console.log({ favouritesArray });
-            return this.spotifyToken.getBearerToken().pipe(
-              switchMap((token) => {
-                return this.fetchTracksFromSpotify(favouritesArray, token);
-              }),
-              catchError((error) => {
-                // Handle Spotify API error
-                console.error('Error fetching tracks from Spotify:', error);
-                return of({ tracks: [] });
-              })
-            );
-          } else {
-            return of({ tracks: [] });
-          }
-        }),
-        catchError((error) => {
-          // Handle user API error
-          console.error('Error fetching user favourites:', error);
+    return this.http.get<string[]>(`${this.userAPIBase}/favourites/`).pipe(
+      switchMap((favouritesArray: string[]) => {
+        if (favouritesArray.length > 0) {
+          console.log({ favouritesArray });
+          return this.spotifyToken.getBearerToken().pipe(
+            switchMap((token) => {
+              return this.fetchTracksFromSpotify(favouritesArray, token);
+            }),
+            catchError((error) => {
+              // Handle Spotify API error
+              console.error('Error fetching tracks from Spotify:', error);
+              return of({ tracks: [] });
+            })
+          );
+        } else {
           return of({ tracks: [] });
-        })
-      );
+        }
+      }),
+      catchError((error) => {
+        // Handle user API error
+        console.error('Error fetching user favourites:', error);
+        return of({ tracks: [] });
+      })
+    );
   }
 
   fetchTracksFromSpotify(
@@ -154,69 +156,4 @@ export class MusicDataService {
         })
       );
   }
-
-  // getFavourites(): Observable<any> {
-  //   return this.http
-  //     .get<string[]>(`${environment.userAPIBase}/user/favourites/`)
-  //     .pipe(
-  //       mergeMap((favouritesArray: string[]) => {
-  //         if (favouritesArray.length > 0) {
-  //           //If the favourites array in database is not empty, call the spotify API to get all the tracks with the spotify token
-  //           return this.spotifyToken.getBearerToken().pipe(
-  //             mergeMap((token) => {
-  //               return this.http.get<any>(
-  //                 `https://api.spotify.com/v1/tracks?ids=${favouritesArray.join()}`,
-  //                 { headers: { Authorization: `Bearer ${token}` } }
-  //               );
-  //             })
-  //           );
-  //         } else {
-  //           return new Observable((o) => o.next({ tracks: [] }));
-  //         }
-  //       })
-  //     );
-  // }
 }
-//   // • addToFavourites(id)
-//   //   - Adds the song or playlist to favourites (adds it to the database)
-//   //     - Returns true if successful, false otherwise
-//   addToFavourites(itemId: any): Observable<[String]> {
-//     // TODO: make a PUT request to environment.userAPIBase/favourites/:id to add id to favourites
-//     return this.http.put<[any]>(
-//       `${environment.userAPIBase}/user/favourites/${itemId}`,
-//       itemId
-//     );
-//   }
-//   // • removeFromFavourites(id)
-//   //   - Removes the song or playlist from favourites (removes it from the database)
-//   //     - Returns true if successful, false otherwise
-//   removeFromFavourites(itemId: any): Observable<any> {
-//     return this.http
-//       .delete<[String]>(`${environment.userAPIBase}/favourites/${itemId}`)
-//       .pipe(mergeMap((o) => o.next({ tracks: [] }))); //   let index = this.favouritesList.indexOf(itemId);
-//     //   if (index > -1) {
-//     //     this.favouritesList.splice(index, 1);
-//     //   }
-//     //   return this.getFavourites();
-//   }
-//   // • getFavourites()
-//   //   - Retrieves all songs and playlists in user's favourites list
-//   //     - Returns an array of objects containing each song or playlist object
-//   getFavourites(): Observable<any> {
-//     if (this.favouritesList.length > 0) {
-//       return this.spotifyToken.getBearerToken().pipe(
-//         mergeMap((token) => {
-//           return this.http.get<any>(
-//             `https://api.spotify.com/v1/tracks?q=${this.favouritesList.join()}`,
-//             {
-//               headers: { Authorization: `Bearer ${token}` },
-//             }
-//           );
-//         })
-//       );
-//     }
-//     //Returns an Observable<any> that broadcasts an empty array immediately to any subscribers
-//     return new Observable((o) => o.next({ tracks: [] }));
-//   }
-// }
-//

@@ -10,7 +10,7 @@ import { Title } from '@angular/platform-browser';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent implements OnDestroy {
+export class LoginComponent implements OnDestroy, OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -51,7 +51,7 @@ export class LoginComponent implements OnDestroy {
       );
     }
   }
-  ngOnInIt(): void {
+  ngOnInit(): void {
     this.title.setTitle('Sign In');
   }
   ngOnDestroy(): void {

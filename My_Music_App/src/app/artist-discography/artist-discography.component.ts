@@ -10,7 +10,7 @@ import { Title } from '@angular/platform-browser';
   templateUrl: './artist-discography.component.html',
   styleUrl: './artist-discography.component.scss',
 })
-export class ArtistDiscographyComponent implements OnInit {
+export class ArtistDiscographyComponent implements OnInit, OnDestroy {
   constructor(
     private activatedRoute: ActivatedRoute,
     private musicDataService: MusicDataService,

@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
-import { environment } from './../environments/environment';
+//import { environment } from './../environments/environment';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { EnvironmentService } from './environment.service';
 import User from './User';
 import RegisterUser from './RegisterUser';
 
@@ -13,9 +14,12 @@ const helper = new JwtHelperService();
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private environmentService: EnvironmentService
+  ) {}
 
-  authAPI: any = environment.userAPIBase;
+  private userAPIBase = this.environmentService.getUserAPIBase();
 
   getEmail() {
     return localStorage.getItem('email');
@@ -51,7 +55,7 @@ export class AuthService {
   }
 
   refreshToken() {
-    return this.http.post(this.authAPI + 'refresh-token', {
+    return this.http.post(this.userAPIBase + 'refresh-token', {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -60,14 +64,14 @@ export class AuthService {
   }
 
   login(user: User): Observable<any> {
-    return this.http.post<any>(`${environment.userAPIBase}/login`, user);
+    return this.http.post<any>(`${this.userAPIBase}/login`, user);
   }
   logout() {
     const rToken = localStorage.getItem('refreshToken');
     localStorage.clear();
     console.log('localStorage length' + localStorage.length);
 
-    return this.http.delete<any>(`${environment.userAPIBase}/logout`, {
+    return this.http.delete<any>(`${this.userAPIBase}/logout`, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -79,7 +83,7 @@ export class AuthService {
     // let headers = new HttpHeaders();
     // headers = headers.set('Content-Type', 'application/json;');
     return this.http.post<any>(
-      `${environment.userAPIBase}/register`,
+      `${this.userAPIBase}/register`,
       registerUser // { headers }
     );
   }

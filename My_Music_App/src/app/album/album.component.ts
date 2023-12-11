@@ -6,15 +6,6 @@ import {
   EventEmitter,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition,
-  // ...
-} from '@angular/animations';
-
 import { ActivatedRoute } from '@angular/router';
 import { MusicDataService } from '../music-data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -29,7 +20,7 @@ import { Title } from '@angular/platform-browser';
     // animation triggers go here
   ],
 })
-export class AlbumComponent implements OnInit {
+export class AlbumComponent implements OnInit, OnDestroy {
   constructor(
     private musicService: MusicDataService,
     private activatedRoute: ActivatedRoute,
