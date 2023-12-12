@@ -20,12 +20,14 @@ export class SpotifyTokenService implements OnDestroy {
       const clientSecret = environment.clientSecret;
 
       let encoded = btoa(clientID + ':' + clientSecret);
-      const httpParams = new HttpParams().set(
-        'grant_type',
-        'client_credentials'
-      );
+
+      const httpParams = new HttpParams()
+        .set('grant_type', 'client_credentials')
+        .append('client_id', clientID)
+        .append('client_secret', clientSecret);
+
       const headers = new HttpHeaders({
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
         Authorization: `Basic ${encoded}`,
       });
 
