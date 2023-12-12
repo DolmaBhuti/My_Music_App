@@ -14,9 +14,7 @@ export class AppComponent implements OnDestroy, OnInit {
     private modalService: NgbModal,
     private router: Router,
     private authService: AuthService
-  ) {
-    console.log({ message: environment.userAPIBase });
-  }
+  ) {}
 
   searchString: any;
   public accessToken: any;

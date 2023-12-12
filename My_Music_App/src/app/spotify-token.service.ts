@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from './../environments/environment';
 import { Observable, Subscription } from 'rxjs';
 
@@ -9,30 +9,33 @@ import { Observable, Subscription } from 'rxjs';
 export class SpotifyTokenService implements OnDestroy {
   constructor(private http: HttpClient) {}
 
-  private clientID = environment.clientID;
-  private clientSecret = environment.clientSecret;
-
   private accessToken: string = '';
   private accessTokenExpires: Date = new Date();
   private tokenSub: Subscription | undefined;
+
   private getAccessToken(): Observable<any> {
     return new Observable((o) => {
-      let auth = btoa(`${this.clientID}:${this.clientSecret}`);
-      const authBody = new HttpParams().set('grant_type', 'client_credentials');
+      //get references to client id and secret
+      const clientID = environment.clientID;
+      const clientSecret = environment.clientSecret;
+
+      let encoded = btoa(clientID + ':' + clientSecret);
+      const httpParams = new HttpParams().set(
+        'grant_type',
+        'client_credentials'
+      );
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: `Basic ${encoded}`,
+      });
+
       this.tokenSub = this.http
-        .post<any>(
-          'https://accounts.spotify.com/api/token',
-          authBody.toString(),
-          {
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-              Authorization: `Basic ${auth}`,
-            },
-          }
-        )
+        .post<any>('https://accounts.spotify.com/api/token', httpParams, {
+          headers: headers,
+        })
         .subscribe(
           (token) => {
-            console.log('get spotify token');
+            console.log('got spotify token');
             this.accessToken = token.access_token;
             this.accessTokenExpires = new Date();
             this.accessTokenExpires.setSeconds(
