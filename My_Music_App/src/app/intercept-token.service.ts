@@ -6,7 +6,7 @@ import {
   HttpClient,
 } from '@angular/common/http';
 import { AuthService } from './auth.service';
-import { Observable, catchError, finalize, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

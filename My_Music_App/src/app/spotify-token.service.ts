@@ -1,23 +1,16 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-//import { environment } from './../environments/environment';
+import { environment } from './../environments/environment';
 import { Observable, Subscription } from 'rxjs';
-import { EnvironmentService } from './environment.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SpotifyTokenService implements OnDestroy {
-  // private clientID = environment.clientID; //environment variables
-  // private clientSecret = environment.clientSecret;
+  constructor(private http: HttpClient) {}
 
-  constructor(
-    private http: HttpClient,
-    private environmentService: EnvironmentService
-  ) {}
-
-  private clientID = this.environmentService.getClientId();
-  private clientSecret = this.environmentService.getClientSecret();
+  private clientID = environment.clientID;
+  private clientSecret = environment.clientSecret;
 
   private accessToken: string = '';
   private accessTokenExpires: Date = new Date();

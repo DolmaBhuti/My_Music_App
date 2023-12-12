@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
-//import { environment } from './../environments/environment';
+import { environment } from './../environments/environment';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { EnvironmentService } from './environment.service';
 import User from './User';
 import RegisterUser from './RegisterUser';
 
@@ -14,12 +13,9 @@ const helper = new JwtHelperService();
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(
-    private http: HttpClient,
-    private environmentService: EnvironmentService
-  ) {}
+  constructor(private http: HttpClient) {}
 
-  private userAPIBase = this.environmentService.getUserAPIBase();
+  private userAPIBase = environment.userAPIBase;
 
   getEmail() {
     return localStorage.getItem('email');

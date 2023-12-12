@@ -3,7 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from './auth.service';
-
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -14,7 +14,9 @@ export class AppComponent implements OnDestroy, OnInit {
     private modalService: NgbModal,
     private router: Router,
     private authService: AuthService
-  ) {}
+  ) {
+    console.log({ message: environment.userAPIBase });
+  }
 
   searchString: any;
   public accessToken: any;

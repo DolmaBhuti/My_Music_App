@@ -2,9 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { SpotifyTokenService } from './spotify-token.service';
-//import { environment } from './../environments/environment';
+import { environment } from './../environments/environment';
 import { catchError, mergeMap, switchMap } from 'rxjs/operators';
-import { EnvironmentService } from './environment.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,11 +11,10 @@ import { EnvironmentService } from './environment.service';
 export class MusicDataService {
   constructor(
     private spotifyToken: SpotifyTokenService,
-    private http: HttpClient,
-    private environmentService: EnvironmentService
+    private http: HttpClient
   ) {}
 
-  private userAPIBase = this.environmentService.getUserAPIBase();
+  private userAPIBase = environment.userAPIBase;
 
   //return an  Observable<any> that can be subscribed to in order to pull all of the new releases from the New Releases endpoint.
   getNewReleases(): Observable<any> {
