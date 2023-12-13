@@ -29,7 +29,7 @@ const routes: Routes = [
   {
     path: 'about',
     component: AboutComponent,
-    canActivate: [GuardAuthService],
+    // canActivate: [GuardAuthService],
   },
   {
     path: 'search',
