@@ -1,50 +1,81 @@
-Project Overview:
+# MyMusicApp Overview
 
-Briefly describe what the project does and its main purpose.
-Installation:
+Welcome to my music platform powered by Angular. This app seamlessly integrates with the Spotify API to bring you the latest album releases, preview tracks, and explore artists' discography. Additionally, you can save your favorites and conveniently access them on the favorites page.
 
-Include step-by-step instructions on how to install dependencies and set up the project locally.
-Specify requirements like Node.js and MongoDB versions needed.
-Usage:
+## Installation and Development server
 
-Provide instructions on how to run the application.
-Include any important environment variables or configurations.
-Folder Structure:
-
-Explain the structure of your project's directories and important files.
-Technologies Used:
-
-List the main technologies, libraries, and frameworks used in the project.
-Features:
-
-Detail the main functionalities and features of the app.
-API Documentation (if applicable):
-
-If your app has APIs, include information on how to use them, endpoints, request/response formats, etc.
-Contributing:
-
-Guidelines for contributing to the project, if it's an open-source project.
-Instructions for bug reporting or feature requests.
-Credits:
-
-Acknowledge any external resources, libraries, or contributors that have helped with the project.
-License:
-
-Specify the license under which the project is distributed.
-Troubleshooting:
-
-Provide solutions to common issues or errors users might encounter.
-Additional Notes:
-
-Any other relevant information or notes that could be helpful.
-
-# MyMusicApp
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.7.
+Run `npm install` to download all necessary packages.
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+You need three environment variables in the .env file.
+
+1. Your user authorization Node API. See https://github.com/DolmaBhuti/AuthUser_API
+
+- Your API needs to have a MongoDB database connected, as well as a Redis server and JWT secrets.
+
+2. Your Spotify Web App's ClientID.
+3. Your Spotify Web App's ClientSecret.
+
+   Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+
+## Technologies Used
+
+1. @ng-bootstrap/ng-bootstrap ^16.0.0-rc.2
+2. bootstrap ^5.3.2
+3. bootstrap-icons ^1.11.1
+
+## API Documentation ():
+
+Spotify API:
+
+1.  Follow the tutorial on https://developer.spotify.com/documentation/web-api/tutorials/getting-started to get set up.
+2.  Grab The client secret and client id and fill them in the .env file as stated above.
+3.  Code to get the access token is in the file named "spotify-token.service.ts"
+4.  All other code uses this access token for requests.
+    Here are some useful endpoints:
+
+- `https://api.spotify.com/v1/browse/new-releases`
+- `https://api.spotify.com/v1/artists/${artistId}`
+- `https://api.spotify.com/v1/artists/${artistId}/albums?include_groups=album,single&limit=50`
+- `https://api.spotify.com/v1/albums/${albumId}`
+- `https://api.spotify.com/v1/search?q=${searchString}&type=artist&limit=50`
+
+User Authorization API:
+
+1.  Add, Get Remove your favourite tracks
+
+- PUT(Add one): `${this.userAPIBase}/favourites/:id`
+- GET(Get all): `${this.userAPIBase}/favourites`
+- DELETE(Remove one): `${this.userAPIBase}/favourites/:id`
+
+2. login
+
+- POST(`${this.userAPIBase}/login`)
+
+3. Register
+
+- POST(`${this.userAPIBase}/register`)
+
+4. logout
+
+- Send in refresh token as body. Just call it with httpClient.delete() method.
+- DELETE(`${this.userAPIBase}/logout`)
+
+5. Refresh Token route
+
+- Send in refresh token as body
+- POST(`${this.userAPIBase}/refresh-token`)
+
+## Features
+
+1. Register user
+2. Login
+3. Browse newly released albums.
+4. Search artists
+5. View artist's discography.
+6. Favourite a track from an album. (Also, remove a track)
+7. View album information and tracks
 
 ## Code scaffolding
 
