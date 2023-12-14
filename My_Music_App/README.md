@@ -13,11 +13,17 @@ You need three environment variables in the .env file.
 1. Your user authorization Node API. See https://github.com/DolmaBhuti/AuthUser_API
 
 - Your API needs to have a MongoDB database connected, as well as a Redis server and JWT secrets.
+- Name: userAPIBase
 
 2. Your Spotify Web App's ClientID.
+
+- Name: clientID
+
 3. Your Spotify Web App's ClientSecret.
 
-   Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- Name: clientSecret
+
+  Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
 ## Technologies Used
 
