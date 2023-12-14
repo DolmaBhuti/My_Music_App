@@ -2,6 +2,8 @@
 
 Welcome to my music platform powered by Angular. This app seamlessly integrates with the Spotify API to bring you the latest album releases, preview tracks, and explore artists' discography. Additionally, you can save your favorites and conveniently access them on the favorites page.
 
+Check out the live page at https://dolmasmusicapp.netlify.app/!
+
 ## Installation and Development server
 
 Run `npm install` to download all necessary packages.
